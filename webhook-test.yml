@@ -1,0 +1,16 @@
+---
+- name: webhook test
+  hosts: localhost
+  gather_facts: False
+
+  vars:
+    webhook: https://siriuscom.webhook.office.com/webhookb2/a763f42a-8fcd-418d-84ec-d654498d5114@f7c416ac-70c9-41cc-bc0d-ed48f2753cd7/IncomingWebhook/2faabaf3452a4c4a9908dbb23c720d4c/c7be06f0-e7de-486f-8391-c28edc31d36d
+    message: "{{ lookup('template', 'message.j2') }}"
+
+  tasks:
+  - name: Log lines to MS Teams
+    uri:
+      url: "{{ webhook }}"
+      body: "{{ message }}"
+      body_format: json
+      method: POST
